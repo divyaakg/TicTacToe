@@ -20,14 +20,18 @@ public class TicTacToeController {
         return "Divya";
     }
 
+
+
     @PostMapping("/v1/{gameid}/{player}/{position}/{mark}")
-    public String setPosition(@PathVariable("player") String player,
+    public String playTurn(@PathVariable("player") String player,
                               @PathVariable("position") Integer position,
                               @PathVariable ("mark") String mark){
         Mark m=Mark.valueOf(mark);
         validationService.validateAll(player, m, position);
         return "setting for "+player+" and "+position+" with mark "+m;
     }
+
+
 
     @PostMapping("/v1/initgame")
     public String startGame(@RequestBody InitRequest request){

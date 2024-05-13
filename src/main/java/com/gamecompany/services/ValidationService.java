@@ -21,7 +21,7 @@ public class ValidationService {
     }
 
     public boolean playerOwnsTheMark(Player p, Mark mark){
-        System.out.println(playerRepo.findByName(p.getName()));
+        //System.out.println(playerRepo.findByName(p.getName()));
         return true;
     }
 

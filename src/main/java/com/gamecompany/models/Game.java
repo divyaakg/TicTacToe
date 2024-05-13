@@ -1,21 +1,32 @@
 package com.gamecompany.models;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
+@Entity
 public class Game {
-    private UUID id;
-    private Player p1;
-    private Player p2;
-    private Board board;
+    @Id
+    @Column(name="game_id")
+    private UUID gameid;
 
-    public Game(Player pl1, Player pl2){
-        p1=pl1;
-        p2=pl2;
-        id=UUID.randomUUID();
-        board=new Board();
+    @OneToOne
+    @JoinColumn(name="starter_player")
+    private Player starter;
+
+    @Column(name = "start_time", columnDefinition = "TIMESTAMP")
+    private LocalDateTime startTime;
+
+    public Game(UUID g, Player s, LocalDateTime time){
+        gameid=g;
+        starter=s;
+        startTime= time;
     }
 
+    public Game(){
+
+    }
 }
