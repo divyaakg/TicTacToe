@@ -6,6 +6,8 @@ import com.gamecompany.services.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/tictactoe")
 public class TicTacToeController {
@@ -23,19 +25,20 @@ public class TicTacToeController {
 
 
     @PostMapping("/v1/{gameid}/{player}/{position}/{mark}")
-    public String playTurn(@PathVariable("player") String player,
+    public String playTurn(@PathVariable("gameid") UUID gameid,
+                            @PathVariable("player") String player,
                               @PathVariable("position") Integer position,
                               @PathVariable ("mark") String mark){
         Mark m=Mark.valueOf(mark);
         validationService.validateAll(player, m, position);
+        playService.play(gameid, player, position, mark);
         return "setting for "+player+" and "+position+" with mark "+m;
     }
 
 
 
     @PostMapping("/v1/initgame")
-    public String startGame(@RequestBody InitRequest request){
-        playService.startGame(request);
-        return "1";
+    public UUID startGame(@RequestBody InitRequest request){
+        return playService.startGame(request);
     }
 }

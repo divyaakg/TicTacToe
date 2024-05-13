@@ -26,7 +26,7 @@ public class ValidationService {
     }
 
     public boolean validateAll(String playerName, Mark m, int position){
-        Player p=playerRepo.findByName(playerName);
+        Player p=playerRepo.findByPlayerAndGame(playerName, null);
         if(!isPlayersTurn(p))
             return false;
         if (!isPositionEmpty(position))

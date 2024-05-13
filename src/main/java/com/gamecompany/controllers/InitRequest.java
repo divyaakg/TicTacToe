@@ -9,5 +9,5 @@ import java.util.List;
 //@JsonSerialize
 @Data
 public class InitRequest {
-    private List<Player> players;
+    private List<PlayerRequest> players;
 }
