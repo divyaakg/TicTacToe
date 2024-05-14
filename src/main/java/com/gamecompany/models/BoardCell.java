@@ -9,12 +9,19 @@ import java.util.UUID;
 @Data
 @Entity
 public class BoardCell {
+
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="cell_id")
+    UUID cellId;
+
     @ManyToOne
     @JoinColumn(name="game_id")
     Game game;
 
-    @EmbeddedId
-    BoardId boardId;
+    @Column(name="position")
+    Integer position;
 
     @OneToOne
     Player player;
@@ -22,31 +29,15 @@ public class BoardCell {
     @Column(name="mark")
     String mark;
 
-    public BoardCell(Game g, UUID bId, Integer i) {
+    public BoardCell(Game g, Integer pos) {
         game=g;
-        boardId=new BoardId(bId,i);
+        position=pos;
     }
 
     public BoardCell(){
 
     }
 
-
-    public static class BoardId{
-        @Column(name="board_uuid")
-        private UUID boardUuId;
-
-        @Column(name="position")
-        Integer position;
-
-        public BoardId(UUID id, Integer pos){
-            boardUuId=id;
-            position=pos;
-        }
-        public BoardId(){
-
-        }
-    }
 
 
 }

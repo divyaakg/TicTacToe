@@ -14,19 +14,19 @@ public class Game {
     @Column(insertable=false, updatable=false, name="game_id")
     private UUID gameid;
 
-    @OneToOne
-    private Player player1;
+    //@OneToOne
+    //private Player player1;
 
-    @OneToOne
-    private Player player2;
+    //@OneToOne
+    //private Player player2;
 
     @Column(name = "start_time", columnDefinition = "TIMESTAMP")
     private LocalDateTime startTime;
 
-    public Game(UUID g, Player s1, Player s2, LocalDateTime time){
+    public Game(UUID g, LocalDateTime time){
         gameid=g;
-        player1=s1;
-        player2=s2;
+        //player1=s1;
+        //player2=s2;
         startTime= time;
     }
 

@@ -7,6 +7,7 @@ import com.gamecompany.models.Player;
 import com.gamecompany.repository.BoardRepository;
 import com.gamecompany.repository.GameRepository;
 import com.gamecompany.repository.PlayerRepository;
+import com.gamecompany.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class PlayService {
         UUID boardId=UUID.randomUUID();
 
 
-        Game g=new Game(gameId,null, null,LocalDateTime.now());
+        Game g=new Game(gameId,LocalDateTime.now());
         gameRepo.save(g);
 
         Player p1=new Player(request.getPlayers().get(0),g);
@@ -38,13 +39,13 @@ public class PlayService {
         playerRepo.save(p1);
         playerRepo.save(p2);
 
-        g.setPlayer1(p1);
-        g.setPlayer2(p2);
-        gameRepo.save(g);
+        //g.setPlayer1(p1);
+        //g.setPlayer2(p2);
+        //gameRepo.save(g);
 
         List<BoardCell> positions=new ArrayList<>();
         for(int i=0;i<9;i++){
-            BoardCell p=new BoardCell(g, boardId, i);
+            BoardCell p=new BoardCell(g,i);
             positions.add(p);
         } boardRepo.saveAll(positions);
 
@@ -58,5 +59,33 @@ public class PlayService {
         b.setPlayer(playerRepo.findByPlayerAndGame(player,gameid));
         b.setMark(mark);
         boardRepo.save(b);
+    }
+
+    public boolean didIWin(UUID gameId, Integer position, String mark){
+        //00 01 02
+        //10 11 12
+        //20 21 22
+        List<BoardCell> cells=boardRepo.findBoard(gameId);
+        char m;
+        if (mark.equals("CROSS"))
+            m='X';
+        else
+            m='0';
+        char [][]matrix= CommonUtil.getMatrix(cells);
+        int x=position/3;
+        int y=position%3;
+        int j=0;
+        for(j=0;j<3;j++){
+            if(matrix[x][j]!=m)
+                break;
+        } if(j==3)
+            return true;
+        int i=0;
+        for(i=0;i<3;i++){
+            if(matrix[i][y]==m)
+                break;
+        } if(i==3)
+            return true;
+        return false;
     }
 }
