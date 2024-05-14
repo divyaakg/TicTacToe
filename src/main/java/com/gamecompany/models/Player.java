@@ -7,12 +7,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Entity
 @NoArgsConstructor
 @Data
 public class Player {
-    @EmbeddedId
-    Identifier id;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="id")
+    UUID playerId;
+
+    @Column(name="player_id")
+    private String playerName;
+
+    @ManyToOne
+    @JoinColumn(name="game_id")
+    private Game game;
 
     @Column(name="mark")
     private String mark;
@@ -20,23 +31,8 @@ public class Player {
 
     public Player(PlayerRequest playerRequest, Game g) {
         mark=playerRequest.getMark();
-        id=new Identifier(playerRequest.getName(), g);
+        playerName=playerRequest.getName();
+        game=g;
     }
 
-    public static class Identifier{
-        @Column(name="player_id")
-        private String playerId;
-
-        @ManyToOne
-        @JoinColumn(name="game_id")
-        private Game game;
-
-        public Identifier(){
-
-        }
-        public Identifier(String name, Game g){
-            playerId=name;
-            game=g;
-        }
-    }
 }
