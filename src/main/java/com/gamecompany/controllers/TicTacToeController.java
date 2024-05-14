@@ -32,8 +32,8 @@ public class TicTacToeController {
                             @PathVariable("player") String player,
                               @PathVariable("position") Integer position,
                               @PathVariable ("mark") String mark){
-        playService.play(gameid, player, position, mark);
-        return new ShowResponse(showService.getMatrix(gameid),playService.didIWin(gameid,position,mark));
+        boolean won=playService.play(gameid, player, position, mark);
+        return new ShowResponse(showService.getMatrix(gameid),won);
     }
 
 

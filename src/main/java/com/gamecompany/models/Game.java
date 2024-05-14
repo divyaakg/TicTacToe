@@ -23,6 +23,12 @@ public class Game {
     @Column(name = "start_time", columnDefinition = "TIMESTAMP")
     private LocalDateTime startTime;
 
+    @OneToOne
+    private Player winner;
+
+    //@OneToOne
+    //private Player startedBy;
+
     public Game(UUID g, LocalDateTime time){
         gameid=g;
         //player1=s1;

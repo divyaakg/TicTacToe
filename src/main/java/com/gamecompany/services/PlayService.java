@@ -53,12 +53,19 @@ public class PlayService {
         return gameId;
     }
 
-    public void play(UUID gameid, String player, Integer position, String mark) {
+    public boolean play(UUID gameid, String player, Integer position, String mark) {
         Optional<BoardCell> opb = boardRepo.findByPositionAndBoardId(gameid,position);
         BoardCell b =opb.get();
-        b.setPlayer(playerRepo.findByPlayerAndGame(player,gameid));
+        Player p=playerRepo.findByPlayerAndGame(player,gameid);
+        b.setPlayer(p);
         b.setMark(mark);
         boardRepo.save(b);
+        boolean won = didIWin(gameid,position,mark);
+        if(won) {
+            Game g = gameRepo.findByGameid(gameid);
+            g.setWinner(p);
+            gameRepo.save(g);
+        } return won;
     }
 
     public boolean didIWin(UUID gameId, Integer position, String mark){

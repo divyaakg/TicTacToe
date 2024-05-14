@@ -8,5 +8,5 @@ import java.util.Map;
 import java.util.UUID;
 
 public interface GameRepository extends JpaRepository<Game,UUID> {
-
+    Game findByGameid(UUID gameid);
 }
