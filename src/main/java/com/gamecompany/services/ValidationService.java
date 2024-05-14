@@ -25,6 +25,10 @@ public class ValidationService {
         return true;
     }
 
+    public boolean isGameAlreadyOver(){
+        return false;
+    }
+
     public boolean validateAll(String playerName, Mark m, int position){
         Player p=playerRepo.findByPlayerAndGame(playerName, null);
         if(!isPlayersTurn(p))

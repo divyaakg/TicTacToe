@@ -86,6 +86,13 @@ public class PlayService {
                 break;
         } if(i==3)
             return true;
+        if (x==y){
+            if(matrix[0][0] == m && matrix[1][1] ==m && matrix[2][2]==m)
+                return true;
+        } if(x+y==2){
+            if(matrix[0][2]==m && matrix[1][1]==m && matrix[2][0]==m)
+                return true;
+        }
         return false;
     }
 }
